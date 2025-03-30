@@ -5,7 +5,7 @@ const express = require('express');
 const app = express();
 
 // Use process.env.PORT if it exists, otherwise use 5001:
-const PORT = process.env.PORT || 5001;
+const PORT = process.env.PORT || 5002;
 
 // Require auth-related middleware:
 const sessionMiddleware = require('./modules/session-middleware');
@@ -16,7 +16,7 @@ const userRouter = require('./routes/user.router');
 
 // Apply middleware:
 app.use(express.json());
-app.use(express.urlencoded({extended: true}));
+app.use(express.urlencoded({ extended: true }));
 app.use(express.static('build'));
 app.use(sessionMiddleware);
 app.use(passport.initialize());
@@ -27,5 +27,5 @@ app.use('/api/user', userRouter);
 
 // Start the server:
 app.listen(PORT, () => {
-  console.log(`Listening on port: ${PORT}`);
+    console.log(`Listening on port: ${PORT}`);
 });
