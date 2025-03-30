@@ -16,6 +16,80 @@ CREATE TABLE "user" (
   "updated_at" TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
+--2. states table
+CREATE TABLE states (
+  id SERIAL PRIMARY KEY,       
+  name VARCHAR(80) NOT NULL     
+);
+
+--3.companies table
+CREATE TABLE companies (
+  id SERIAL PRIMARY KEY,                               
+  name VARCHAR(100) NOT NULL,                           
+  logo_url VARCHAR(255),                                
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now()        
+);
+
+--4. lobs table
+CREATE TABLE jobs (
+  id SERIAL PRIMARY KEY,                                  
+  title VARCHAR(255) NOT NULL,                            
+  description TEXT,                                        
+  requirements TEXT,                                       
+  location VARCHAR(80),                                   
+  job_type VARCHAR(50),                                    
+  company_name VARCHAR(255),                               
+  recruiter_id INT NOT NULL,                               
+  company_id INT,                                          
+  is_open BOOLEAN DEFAULT TRUE,                            
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now(),           
+  CONSTRAINT fk_recruiter
+    FOREIGN KEY (recruiter_id) REFERENCES "user"(id),
+  CONSTRAINT fk_company
+    FOREIGN KEY (company_id) REFERENCES companies(id)
+);
+
+
+--5. applications table
+CREATE TABLE applications (
+  id SERIAL PRIMARY KEY,                                  
+  job_id INT NOT NULL,                                     
+  user_id INT NOT NULL,                                    
+  status VARCHAR(50) NOT NULL DEFAULT 'Applied',           
+  applied_at TIMESTAMPTZ NOT NULL DEFAULT now(),           
+  years_of_experience INT,                                 
+  skills TEXT,                                             
+  education_level VARCHAR(50),                             
+  resume_link VARCHAR(255),                                
+  CONSTRAINT fk_job
+    FOREIGN KEY (job_id) REFERENCES jobs(id),
+  CONSTRAINT fk_user
+    FOREIGN KEY (user_id) REFERENCES "user"(id)
+);
+
+--6. saved jobs table
+
+CREATE TABLE saved_jobs (
+  id SERIAL PRIMARY KEY,                                   
+  job_id INT NOT NULL,                                    
+  user_id INT NOT NULL,                                    
+  saved_at TIMESTAMPTZ NOT NULL DEFAULT now(),            
+  CONSTRAINT fk_job_saved
+    FOREIGN KEY (job_id) REFERENCES jobs(id),
+  CONSTRAINT fk_user_saved
+    FOREIGN KEY (user_id) REFERENCES "user"(id)
+);
+
+
+
+
+
+
+
+
+
+
+
 
 -------------------------------------------------------
 --------------------------------------------------
