@@ -1,7 +1,9 @@
-import React from 'react';
+import React from 'react'
 
 const PostJobs = () => {
-    return <div>PostJobs</div>;
-};
+  return (
+    <div>PostJobs</div>
+  )
+}
 
 export default PostJobs;

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Mail, Lock, User } from 'lucide-react';
+import { Mail, Lock, User } from 'ucide-react';
 
 const LoginForm = () => {
     const [isLogin, setIsLogin] = useState(true);
@@ -17,7 +17,6 @@ const LoginForm = () => {
             console.log('Signing up with:', { name, email, password });
         }
     };
-
     return (
         <div className="flex flex-col items-center justify-center min-h-screen bg-[#04091A] px-6 mt-[-80px]">
             {/* Toggle Button */}
@@ -25,6 +24,7 @@ const LoginForm = () => {
                 <span className={`text-lg ${isLogin ? 'text-purple-400' : ''}`}>
                     LOG IN
                 </span>
+
                 <div
                     className="relative w-16 h-8 flex items-center bg-gradient-to-r from-[#00AEEF] to-[#007BFF] rounded-full cursor-pointer"
                     onClick={() => setIsLogin(!isLogin)}
@@ -105,18 +105,6 @@ const LoginForm = () => {
                             >
                                 {isLogin ? 'Login' : 'Sign Up'}
                             </button>
-
-                            {/* Forgot Password - Only for Login */}
-                            {isLogin && (
-                                <p className="text-center text-sm text-gray-400 mt-3">
-                                    <a
-                                        href="#"
-                                        className="text-purple-400 hover:underline"
-                                    >
-                                        Forgot your password?
-                                    </a>
-                                </p>
-                            )}
                         </form>
                     </motion.div>
                 </AnimatePresence>
