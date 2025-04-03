@@ -21,6 +21,13 @@ import Contact from '../Contact/Contact';
 import Resources from '../Resources/Resources';
 import Footer from '../Footer/Footer';
 
+
+
+
+
+
+
+
 function App() {
     // Get user state and the function to fetch user data from the global store.
     const user = useStore((state) => state.user);
@@ -103,9 +110,10 @@ function App() {
                     {/* --- */}
                 </Routes>
             </main>
-            <footer>
+            {/* <footer>
                 <p>Copyright © {new Date().getFullYear()}</p>
-            </footer>
+            </footer> */}
+            <Footer />
         </>
     );
 }

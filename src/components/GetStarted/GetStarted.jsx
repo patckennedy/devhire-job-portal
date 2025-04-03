@@ -10,7 +10,7 @@ const GetStarted = () => {
             <img
                 src={devlogo}
                 alt="DevHire Logo"
-                className="w-20 h-auto mb-6"
+                className="w-16 h-auto mb-6 animate-spin"
             />
             {/* Heading */}
             <h1 className="text-4xl md:text-5xl font-bold mb-4 text-center text-white-800">
