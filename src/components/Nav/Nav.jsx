@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-
-import useStore from '../../zustand/store';
+// import ThemeToggler from '../ThemeToggler/ThemeToggler.jsx';
+// import useStore from '../../zustand/store';
 
 function Nav() {
     return (
@@ -19,16 +19,22 @@ function Nav() {
         "
             >
                 {/* Brand/Logo */}
-                <div className="flex items-center">
+                <NavLink
+                    to="/"
+                    className="flex items-center cursor-pointer hover:opacity-80"
+                >
+                    {/* Image - logo */}
+
                     {/* <img
-            src={devlogo}
-            alt="DevHire Logo"
-            className="h-10 w-10 mr-2 object-contain"
-          /> */}
-                    <span className="text-white text-xl font-bold uppercase tracking-wide">
+                        src="/images/logo/devlogo.png"
+                        alt="DevHire Logo"
+                        className="h-10 w-10 mr-2 object-contain"
+                    /> */}
+
+                    <span className="text-white text-3xl font-bold uppercase tracking-wide">
                         DevHire
                     </span>
-                </div>
+                </NavLink>
 
                 {/* Nav Links (Desktop) */}
                 <ul className="hidden md:flex items-center space-x-8">
@@ -81,6 +87,10 @@ function Nav() {
                 >
                     GET STARTED
                 </NavLink>
+                {/* Theme Toggler */}
+                {/* <div className="ml-4">
+                    <ThemeToggler />
+                </div> */}
 
                 {/* Mobile Menu Button */}
                 <div className="md:hidden">
