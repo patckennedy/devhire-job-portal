@@ -24,10 +24,7 @@ const Hero = () => {
                     </div>
                 </div>
             </div>
-            {/* Right Section */}
-            <div>
-                
-            </div>
+           
         </section>
     );
 };

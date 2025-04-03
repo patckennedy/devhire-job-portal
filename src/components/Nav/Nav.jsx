@@ -7,16 +7,16 @@ function Nav() {
     return (
         <nav className="fixed top-0 left-0 right-0 z-50 px-5 py-4 bg-transparent">
             <div
-                className="
-          mx-auto w-full max-w-[80rem] 
-          flex items-center justify-between
-          py-4 px-6
-          rounded-full
-          border border-[#09112A]
-          shadow-[inset_0_0_5px_#cfc8c86b]
-          backdrop-blur-[15px]
-          bg-gradient-to-t from-white/10 to-white/10
-        "
+                className="w-full flex items-center justify-between py-4 px-6 rounded-full border border-[#09112A] shadow-[inset_0_0_5px_#cfc8c86b] backdrop-blur-[15px] bg-gradient-to-t from-white/10 to-white/10"
+        //   mx-auto w-full max-w-[80rem] 
+        //   flex items-center justify-between
+        //   py-4 px-6
+        //   rounded-full
+        //   border border-[#09112A]
+        //   shadow-[inset_0_0_5px_#cfc8c86b]
+        //   backdrop-blur-[15px]
+        //   bg-gradient-to-t from-white/10 to-white/10
+        
             >
                 {/* Brand/Logo */}
                 <NavLink
