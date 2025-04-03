@@ -1,11 +1,9 @@
-import React from 'react';
+import React from 'react'
 
 const Contact = () => {
-    return (
-        <div className="flex justify-center items-center h-screen">
-            <h1 className="text-center font-bold text-4xl">CONTACT</h1>
-        </div>
-    );
-};
+  return (
+    <div>Contact</div>
+  )
+}
 
 export default Contact;
