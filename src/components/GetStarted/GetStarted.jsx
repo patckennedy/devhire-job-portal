@@ -4,7 +4,7 @@ import devlogo from '../assets/devlogo.png';
 
 const GetStarted = () => {
     return (
-        <div className="min-h-screen flex flex-col items-center justify-center p-8 my-8">
+        <div className="min-h-screen flex flex-col items-center justify-center p-8 my-8 bg-gradient-to-b from-[#010101] to-black text-white overflow-hidden">
             {/* DevHire Logo}
             {/* Logo at the top */}
             <img
