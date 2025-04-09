@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { motion } from 'framer-motion';
+import useStore from '../../zustand/store';
 import {
     Briefcase,
     Building,
@@ -23,42 +24,56 @@ const PostJobs = () => {
         requirements: '',
         applyLink: '',
         logo: null,
+        jobStatus: '',
     });
 
     const [states, setStates] = useState([]);
     const [message, setMessage] = useState('');
 
-    // Handle input changes
+    const user = useStore((state) => state.user);
+
+    // Fetch states from API (fixed + log)
+    useEffect(() => {
+        axios
+            .get('http://localhost:5008/api/states')
+            .then((response) => {
+                console.log('States fetched from backend:', response.data);
+                setStates(response.data);
+            })
+            .catch((error) => console.error('Error fetching states:', error));
+    }, []);
+
+    // check to confirm state...
+    console.log('States in component:', states);
+
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    // Handle file upload (company logo)
     const handleFileChange = (e) => {
         setFormData({ ...formData, logo: e.target.files[0] });
     };
-    // Handle form submission
+
     const handleSubmit = (e) => {
         e.preventDefault();
         setMessage('');
 
-        const jobData = new FormData();
-        jobData.append('title', formData.title);
-        jobData.append('company_id', 1);
-        jobData.append('location', formData.location);
-        jobData.append('jobType', formData.jobType);
-        jobData.append('salary', formData.salary || '');
-        jobData.append('description', formData.description);
-        jobData.append('requirements', formData.requirements);
-        jobData.append('applyLink', formData.applyLink || '');
-        jobData.append('jobStatus', formData.jobStatus);
-        jobData.append('recruiter_id', 1);
-        if (formData.logo) jobData.append('companyLogo', formData.logo);
+        const jobData = {
+            title: formData.title,
+            description: formData.description,
+            requirements: formData.requirements,
+            location: formData.location,
+            job_type: formData.jobType,
+            company_name: formData.company,
+            salary: formData.salary || '',
+            job_status: formData.jobStatus,
+            application_link: formData.applyLink || '',
+            company_logo: formData.logo?.name || '',
+            recruiter_id: user?.id,
+        };
 
         axios
-            .post('http://localhost:5000/api/jobs', jobData, {
-                headers: { 'Content-Type': 'multipart/form-data' },
-            })
+            .post('http://localhost:5008/api/jobs', jobData)
             .then((response) => {
                 console.log('Job Posted:', response.data);
                 setMessage('Job posted successfully!');
@@ -70,7 +85,6 @@ const PostJobs = () => {
             });
     };
 
-    // Reset form fields
     const resetForm = () => {
         setFormData({
             title: '',
@@ -87,7 +101,6 @@ const PostJobs = () => {
         document.getElementById('logoUpload').value = null;
     };
 
-    // Framer Motion variants for container and items
     const containerVariants = {
         hidden: { opacity: 0 },
         visible: {
@@ -103,18 +116,15 @@ const PostJobs = () => {
 
     return (
         <div className="min-h-screen bg-gradient-to-b from-[#04091A] to-black text-white overflow-hidden">
-            {/* DIVIDER SECTION (thin line + centered title) */}
             <div className="max-w-9xl mx-auto pt-36 px-4 sm:px-6 lg:px-8">
-                {/* <hr className="border-t border-gray-700 my-10" /> */}
                 <h2 className="text-center text-3xl sm:text-4xl font-bold mb-10">
                     Post a Job
                 </h2>
             </div>
 
-            {/* ------- FORM SECTION ---------- */}
             <div className="p-6">
                 <motion.div
-                    className=" border border-gray-700 w-full max-w-7xl bg-gray-900 rounded-lg shadow-lg p-6 mx-auto"
+                    className="border border-gray-700 w-full max-w-7xl bg-gray-900 rounded-lg shadow-lg p-6 mx-auto"
                     variants={containerVariants}
                     initial="hidden"
                     animate="visible"
@@ -171,6 +181,7 @@ const PostJobs = () => {
                                 />
                             </label>
 
+                            {/* Location Drop Down */}
                             <label className="block">
                                 <span className="flex items-center text-gray-200 font-medium mb-2">
                                     <MapPin className="mr-2 h-4 w-4" /> Location
@@ -192,6 +203,12 @@ const PostJobs = () => {
                                         </option>
                                     ))}
                                 </select>
+                                {/* If dropdown is empty, show warning */}
+                                {states.length === 0 && (
+                                    <p className="text-red-400 text-sm mt-1">
+                                        States not loaded. Please check API.
+                                    </p>
+                                )}
                             </label>
 
                             <label className="block">
@@ -228,7 +245,7 @@ const PostJobs = () => {
                                     step="1000"
                                 />
                             </label>
-                            {/* Added new field: Job Status dropdown */}
+
                             <label className="block">
                                 <span className="flex items-center text-gray-200 font-medium mb-2">
                                     <ClipboardList className="mr-2 h-4 w-4" />{' '}
@@ -318,7 +335,6 @@ const PostJobs = () => {
                             </label>
                         </motion.div>
 
-                        {/* Submit Button (Spans both columns) */}
                         <motion.div
                             className="lg:col-span-2"
                             variants={itemVariants}
