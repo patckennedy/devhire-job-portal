@@ -41,7 +41,7 @@ const AuthPage = () => {
     };
 
     return (
-        <div className="min-h-screen bg-gray-900 text-white flex items-center justify-center p-4">
+        <div className="min-h-screen bg-gray-900 text-white flex items-center justify-center p-4 pt-36">
             <div className="w-full max-w-md bg-gray-800 p-6 rounded-lg shadow-lg">
                 {/* Tab Switch */}
                 <div className="flex justify-between mb-6">
@@ -121,7 +121,7 @@ const AuthPage = () => {
                         </select>
                         <button
                             type="submit"
-                            className="w-full bg-purple-600 hover:bg-purple-700 py-3 rounded font-semibold"
+                            className="w-full bg-purple-500 hover:bg-purple-700 py-3 rounded font-semibold"
                         >
                             Register
                         </button>
