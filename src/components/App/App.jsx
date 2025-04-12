@@ -1,35 +1,36 @@
 import { useEffect } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
-
-// Existing Components from the template
+import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 import useStore from '../../zustand/store';
+
+// Pages & Components
 import Nav from '../Nav/Nav';
 import HomePage from '../HomePage/HomePage';
 import LoginPage from '../LoginPage/LoginPage';
 import RegisterPage from '../RegisterPage/RegisterPage';
-//New DevHire Pages/Views
-import GetStarted from '../GetStarted/GetStarted';
-import JobListing from '../JobListing/JobListing';
-import PostJobs from '../PostJobs/PostJobs';
+import About from '../About/About';
+import JobSeekerDashboard from '../JobSeekerDashboard/JobSeekerDashboard';
 import RecruiterDashboard from '../RecruiterDashboard/RecruiterDashboard';
 import RecruiterJobDetails from '../RecruiterJobDetails/RecruiterJobDetails';
+import PostJobs from '../PostJobs/PostJobs';
 import ViewJobDetails from '../ViewJobDetails/ViewJobDetails';
-import SavedJobs from '../SavedJobs/SavedJobs';
-import MyJobs from '../MyJobs/MyJobs';
-import About from '../About/About';
-import Contact from '../Contact/Contact';
-import Resources from '../Resources/Resources';
-import Footer from '../Footer/Footer';
 
-
-
-
-
-
-
+// Optional placeholders
+const Contact = () => (
+    <h2 className="pt-28 text-white text-center">Contact Page (Coming Soon)</h2>
+);
+const Resources = () => (
+    <h2 className="pt-28 text-white text-center">
+        Resources Page (Coming Soon)
+    </h2>
+);
+// const PostJobs = () => (
+//     <h2 className="pt-28 text-white text-center">
+//         Post a Job Page (Coming Soon)
+//     </h2>
+// );
 
 function App() {
-    // Get user state and the function to fetch user data from the global store.
     const user = useStore((state) => state.user);
     const fetchUser = useStore((state) => state.fetchUser);
 
@@ -42,18 +43,17 @@ function App() {
             <header>
                 <Nav />
             </header>
+
             <main>
                 <Routes>
-                    {/* Public Routes: accessible to everyone */}
+                    {/* Public Routes */}
                     <Route path="/" element={<HomePage />} />
                     <Route path="/about" element={<About />} />
                     <Route path="/contact" element={<Contact />} />
                     <Route path="/resources" element={<Resources />} />
-                    <Route path="/get-started" element={<GetStarted />} />
-                    <Route path="/job-listing" element={<JobListing />} />
-                    {/* Public Routes: ENDS */}
-                    {/* Authentication Routes */}
-                    <Route
+
+                    {/* Auth Routes */}
+                    {/* <Route
                         path="/login"
                         element={
                             user.id ? (
@@ -62,8 +62,28 @@ function App() {
                                 <LoginPage />
                             )
                         }
+                    /> */}
+                    <Route
+                        path="/login"
+                        element={
+                            user.id ? (
+                                user.role === 'recruiter' ? (
+                                    <Navigate
+                                        to="/recruiter-dashboard"
+                                        replace
+                                    />
+                                ) : (
+                                    <Navigate
+                                        to="/job-seeker-dashboard"
+                                        replace
+                                    />
+                                )
+                            ) : (
+                                <LoginPage />
+                            )
+                        }
                     />
-                    {/* ENDS */}
+
                     <Route
                         path="/registration"
                         element={
@@ -74,46 +94,66 @@ function App() {
                             )
                         }
                     />
-                    {/* ENDS */}
 
-                    {/* If a user clicks on "View Details" on a job card and is not logged in, send them to GetStarted */}
-                    <Route path="/job/:id" element={<GetStarted />} />
+                    {/* Protected Dashboards */}
+                    <Route
+                        path="/job-seeker-dashboard"
+                        element={
+                            <ProtectedRoute requiredRole="job_seeker">
+                                <JobSeekerDashboard />
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path="/recruiter-dashboard"
+                        element={
+                            <ProtectedRoute requiredRole="recruiter">
+                                <RecruiterDashboard />
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path="/post-jobs"
+                        element={
+                            <ProtectedRoute requiredRole="recruiter">
+                                <PostJobs />
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path="/recruiter/job/:id"
+                        element={
+                            <ProtectedRoute requiredRole="recruiter">
+                                <RecruiterJobDetails />
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path="/job/:id"
+                        element={
+                            <ProtectedRoute requiredRole="job_seeker">
+                                <ViewJobDetails />
+                            </ProtectedRoute>
+                        }
+                    />
 
-                    {/* Protected Routes: these routes are accessible only if a user is logged in */}
-                    {user.id && (
-                        <>
-                            {/* For Job Seekers */}
-                            <Route
-                                path="/view-job/:id"
-                                element={<ViewJobDetails />}
-                            />
-                            <Route path="/saved-jobs" element={<SavedJobs />} />
-                            <Route path="/my-jobs" element={<MyJobs />} />
-
-                            {/* For Recruiters */}
-                            <Route path="/post-jobs" element={<PostJobs />} />
-                            <Route
-                                path="/recruiter-dashboard"
-                                element={<RecruiterDashboard />}
-                            />
-                            <Route
-                                path="/recruiter/job/:id"
-                                element={<RecruiterJobDetails />}
-                            />
-                        </>
-                    )}
-                    {/* Authentication Routes ENDS */}
-
-                    {/* Catch-all Route for unknown URLs */}
-                    <Route path="*" element={<h2>404 Page Not Found</h2>} />
-
-                    {/* --- */}
+                    {/* Fallback Route */}
+                    <Route
+                        path="*"
+                        element={
+                            <h2 className="pt-28 text-center text-white">
+                                404 Page Not Found
+                            </h2>
+                        }
+                    />
                 </Routes>
             </main>
-            {/* <footer>
-                <p>Copyright © {new Date().getFullYear()}</p>
-            </footer> */}
-            <Footer />
+
+            <footer>
+                <p className="text-center text-gray-400 py-6">
+                    Copyright © {new Date().getFullYear()}
+                </p>
+            </footer>
         </>
     );
 }
