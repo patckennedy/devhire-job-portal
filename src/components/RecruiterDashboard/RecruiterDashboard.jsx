@@ -1,178 +1,187 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Trash2 } from 'lucide-react';
-import useStore from '../../zustand/store';
 
-const RecruiterDashboard = () => {
-    const [jobs, setJobs] = useState([]);
-    const [totalJobs, setTotalJobs] = useState(0);
-    const [totalApplications, setTotalApplications] = useState(0);
+const RecruiterJobDetails = () => {
+    // Dummy job data for visual design (no backend calls)
+    const [job, setJob] = useState({
+        id: 1,
+        title: 'Senior Backend Engineer',
+        company: 'DevHire Inc.',
+        companyLogo: '',
+        location: 'Remote',
+        description:
+            'This is a sample job description tailored for a Recruiter context. It outlines the main responsibilities and tasks for the role, along with key objectives and goals.',
+        requirements:
+            '• 5+ years of experience in Node.js\n• Proficiency with Express\n• Excellent communication skills\n• Ability to mentor junior developers',
+    });
 
-    const user = useStore((state) => state.user);
-    const logOut = useStore((state) => state.logOut);
+    // State to toggle the edit drawer
+    const [isEditing, setIsEditing] = useState(false);
+    // State to hold editable form data, initialized with job details
+    const [editData, setEditData] = useState({ ...job });
 
-    useEffect(() => {
-        if (!user.id) return;
-        fetch(`http://localhost:5008/api/jobs/recruiter/${user.id}`)
-            .then((res) => res.json())
-            .then((data) => {
-                setJobs(data);
-                setTotalJobs(data.length);
-                const totalApps = data.reduce(
-                    (sum, job) => sum + (job.applications || 0),
-                    0
-                );
-                setTotalApplications(totalApps);
-            })
-            .catch((err) =>
-                console.error('Failed to fetch recruiter jobs:', err)
-            );
-    }, [user.id]);
-
-    const handleStatusChange = (jobId, newStatus) => {
-        const updated = jobs.map((job) =>
-            job.id === jobId ? { ...job, status: newStatus } : job
-        );
-        setJobs(updated);
+    // Toggle edit drawer visibility
+    const handleEditClick = () => {
+        setIsEditing(true);
     };
 
-    const handleDelete = (jobId) => {
-        if (window.confirm('Are you sure you want to delete this job?')) {
-            const updated = jobs.filter((job) => job.id !== jobId);
-            setJobs(updated);
-            setTotalJobs(updated.length);
-            const totalApps = updated.reduce(
-                (sum, job) => sum + (job.applications || 0),
-                0
-            );
-            setTotalApplications(totalApps);
-        }
+    // Update editData state when form fields change
+    const handleInputChange = (e) => {
+        setEditData({ ...editData, [e.target.name]: e.target.value });
+    };
+
+    // Simulate saving the changes by updating the job state
+    const handleSave = () => {
+        setJob(editData);
+        setIsEditing(false);
+        alert('Job updated successfully! (For design only)');
+    };
+
+    // Cancel editing and close the drawer without saving changes
+    const handleCancel = () => {
+        setIsEditing(false);
+        setEditData({ ...job });
+    };
+
+    // For design purposes, the delete operation simply alerts the user.
+    const handleDelete = () => {
+        alert('Delete Job clicked! (For design only)');
     };
 
     return (
-        <div className="min-h-screen bg-[#04091A] text-white p-6 mt-24">
-            {/* Header with Logout */}
-            <div className="flex justify-between items-center max-w-6xl mx-auto mb-8">
-                <h1 className="text-4xl font-bold">Recruiter Dashboard</h1>
-                <button
-                    onClick={logOut}
-                    className="bg-red-600 hover:bg-red-500 text-white font-medium py-2 px-4 rounded"
-                >
-                    Log Out
-                </button>
-            </div>
+        <div className="min-h-screen bg-[#04091A] text-white p-6">
+            <div className="max-w-4xl mx-auto bg-gray-900 p-8 rounded-lg shadow-lg">
+                {/* Job Header Section */}
+                <h1 className="text-4xl font-bold mb-4">{job.title}</h1>
 
-            {/* Metrics */}
-            <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-                <div className="bg-gray-900 rounded-lg p-6 shadow-md text-center">
-                    <h2 className="text-2xl font-bold mb-2">{totalJobs}</h2>
-                    <p className="text-gray-400">Jobs Posted</p>
-                </div>
-                <div className="bg-gray-900 rounded-lg p-6 shadow-md text-center">
-                    <h2 className="text-2xl font-bold mb-2">
-                        {totalApplications}
-                    </h2>
-                    <p className="text-gray-400">Total Applications</p>
-                </div>
-                <div className="bg-gray-900 rounded-lg p-6 shadow-md text-center">
-                    <h2 className="text-2xl font-bold mb-2">Updated Soon</h2>
-                    <p className="text-gray-400">Recent Activity</p>
-                </div>
-            </div>
-
-            {/*Add Job Button */}
-            <div className="max-w-6xl mx-auto mb-6 text-right">
-                <Link
-                    to="/post-jobs"
-                    className="bg-purple-700 hover:bg-purple-600 text-white py-2 px-4 rounded-md font-medium"
-                >
-                    + Post a Job
-                </Link>
-            </div>
-
-            {/*Job Cards */}
-            <div className="max-w-6xl mx-auto">
-                <h2 className="text-3xl font-bold mb-4">Your Job Postings</h2>
-                <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-                    {jobs.length > 0 ? (
-                        jobs.map((job) => (
-                            <div
-                                key={job.id}
-                                className="bg-gray-900 rounded-lg shadow-md p-6 flex flex-col gap-4 transition-all hover:shadow-lg"
-                            >
-                                <div>
-                                    <h3 className="text-xl font-semibold">
-                                        {job.title}
-                                    </h3>
-                                    <p className="text-gray-400 text-sm">
-                                        {job.company_name} - {job.location}
-                                    </p>
-                                </div>
-
-                                <div className="flex items-center gap-2">
-                                    <label className="text-gray-300 text-sm font-semibold">
-                                        Status:
-                                    </label>
-                                    <select
-                                        value={job.job_status}
-                                        onChange={(e) =>
-                                            handleStatusChange(
-                                                job.id,
-                                                e.target.value
-                                            )
-                                        }
-                                        className="bg-gray-800 text-white p-1 rounded text-sm focus:outline-none"
-                                    >
-                                        <option value="Open">Open</option>
-                                        <option value="Interviewing">
-                                            Interviewing
-                                        </option>
-                                        <option value="Closed">Closed</option>
-                                    </select>
-                                </div>
-
-                                <div>
-                                    <p className="text-gray-300 text-sm">
-                                        <span className="font-semibold">
-                                            Applications:
-                                        </span>{' '}
-                                        {job.applications || 0}
-                                    </p>
-                                </div>
-
-                                <div className="mt-auto flex justify-between items-center">
-                                    <Link
-                                        to={`/recruiter/job/${job.id}`}
-                                        className="p-3 bg-gradient-to-r from-[#A259FF] to-[#6C00FF] text-white rounded-md hover:opacity-90 transition"
-                                    >
-                                        View Details
-                                    </Link>
-                                    <button
-                                        onClick={() => handleDelete(job.id)}
-                                        className="p-3 bg-red-600 hover:bg-red-500 text-white rounded-md transition"
-                                    >
-                                        <Trash2 size={20} />
-                                    </button>
-                                </div>
-                            </div>
-                        ))
+                {/* Company Info Section */}
+                <div className="flex items-center gap-4 mb-6">
+                    {job.companyLogo ? (
+                        <img
+                            src={job.companyLogo}
+                            alt="Company Logo"
+                            className="w-16 h-16 rounded-full object-cover"
+                        />
                     ) : (
-                        <div className="text-center w-full text-gray-400">
-                            <p className="mb-4">
-                                You haven't posted any jobs yet.
-                            </p>
-                            <Link
-                                to="/post-jobs"
-                                className="inline-block bg-purple-700 hover:bg-purple-600 text-white py-2 px-4 rounded-md font-medium"
-                            >
-                                + Post Your First Job
-                            </Link>
+                        <div className="w-16 h-16 bg-gray-700 rounded-full flex items-center justify-center">
+                            <span className="text-xl font-bold">
+                                {job.company ? job.company.charAt(0) : 'C'}
+                            </span>
                         </div>
                     )}
+                    <div>
+                        <h2 className="text-2xl font-semibold">
+                            {job.company}
+                        </h2>
+                        <p className="text-gray-400">{job.location}</p>
+                    </div>
                 </div>
+
+                {/* Job Description Section */}
+                <div className="mb-6 border-b border-gray-700 pb-4">
+                    <h3 className="text-xl font-semibold mb-2">
+                        Job Description
+                    </h3>
+                    <p className="text-gray-300 whitespace-pre-line">
+                        {job.description}
+                    </p>
+                </div>
+
+                {/* Job Requirements Section */}
+                <div className="mb-6 border-b border-gray-700 pb-4">
+                    <h3 className="text-xl font-semibold mb-2">
+                        Job Requirements
+                    </h3>
+                    <p className="text-gray-300 whitespace-pre-line">
+                        {job.requirements}
+                    </p>
+                </div>
+
+                {/* Action Buttons for Recruiter Management */}
+                <div className="flex gap-4 mb-6">
+                    <button
+                        onClick={handleEditClick}
+                        className="bg-gradient-to-r from-[#A259FF] to-[#6C00FF] text-white px-6 py-3 rounded-lg hover:opacity-90 transition"
+                    >
+                        Edit Job
+                    </button>
+                    <button
+                        onClick={handleDelete}
+                        className="bg-red-600 text-white px-6 py-3 rounded-lg hover:bg-red-500 transition"
+                    >
+                        Delete Job
+                    </button>
+                </div>
+
+                {/* Back to Dashboard Link */}
+                <Link
+                    to="/recruiter-dashboard"
+                    className="text-[#A259FF] hover:underline mb-6 inline-block"
+                >
+                    Back to Dashboard
+                </Link>
+
+                {/* Edit Drawer */}
+                {isEditing && (
+                    <div className="mt-8 bg-gray-800 p-6 rounded-lg">
+                        <h2 className="text-2xl font-bold mb-4">Edit Job</h2>
+                        <div className="space-y-4">
+                            <div>
+                                <label className="block text-gray-300 mb-1">
+                                    Job Title
+                                </label>
+                                <input
+                                    type="text"
+                                    name="title"
+                                    value={editData.title}
+                                    onChange={handleInputChange}
+                                    className="w-full p-3 rounded bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-gray-300 mb-1">
+                                    Job Description
+                                </label>
+                                <textarea
+                                    name="description"
+                                    value={editData.description}
+                                    onChange={handleInputChange}
+                                    rows="4"
+                                    className="w-full p-3 rounded bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                ></textarea>
+                            </div>
+                            <div>
+                                <label className="block text-gray-300 mb-1">
+                                    Job Requirements
+                                </label>
+                                <textarea
+                                    name="requirements"
+                                    value={editData.requirements}
+                                    onChange={handleInputChange}
+                                    rows="4"
+                                    className="w-full p-3 rounded bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                ></textarea>
+                            </div>
+                        </div>
+                        <div className="mt-6 flex gap-4">
+                            <button
+                                onClick={handleSave}
+                                className="bg-gradient-to-r from-[#A259FF] to-[#6C00FF] text-white px-6 py-3 rounded-lg hover:opacity-90 transition"
+                            >
+                                Save Changes
+                            </button>
+                            <button
+                                onClick={handleCancel}
+                                className="bg-red-600 text-white px-6 py-3 rounded-lg hover:bg-red-500 transition"
+                            >
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+                )}
             </div>
         </div>
     );
 };
 
-export default RecruiterDashboard;
+export default RecruiterJobDetails;
