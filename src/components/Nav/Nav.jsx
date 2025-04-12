@@ -1,9 +1,17 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
-// import ThemeToggler from '../ThemeToggler/ThemeToggler.jsx';
-// import useStore from '../../zustand/store';
+import { NavLink, useNavigate } from 'react-router-dom';
+import useStore from '../../zustand/store';
 
 function Nav() {
+    const user = useStore((state) => state.user);
+    const logOut = useStore((state) => state.logOut);
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        logOut();
+        navigate('/login');
+    };
+
     return (
         <nav className="fixed top-0 left-0 right-0 z-50 px-5 py-4 bg-transparent">
             <div className="w-full flex items-center justify-between py-3 px-4 rounded-full border-2 border-gray-700 shadow-inner backdrop-blur-xl bg-gradient-to-b from-gray-800 to-black">
@@ -12,92 +20,122 @@ function Nav() {
                     to="/"
                     className="flex items-center cursor-pointer hover:opacity-80"
                 >
-                    {/* Image - logo */}
-
-                    {/* <img
-                        src="/images/logo/devlogo.png"
-                        alt="DevHire Logo"
-                        className="h-10 w-10 mr-2 object-contain"
-                    /> */}
-
                     <span className="text-white text-3xl font-bold uppercase tracking-wide">
                         DevHire
                     </span>
                 </NavLink>
-                {/* Nav Links (Desktop) */}
+
+                {/* Nav Links (Public + Conditional) */}
                 <ul className="hidden md:flex items-center space-x-8">
                     <li>
                         <NavLink
-                            to="/job-listing"
-                            end
-                            className={({ isActive }) =>
-                                isActive
-                                    ? 'text-purple-400 font-semibold'
-                                    : 'text-white hover:text-purple-400 transition'
-                            }
-                        >
-                            BROWSE JOBS
-                        </NavLink>
-                    </li>
-                    <li>
-                        <NavLink
                             to="/about"
-                            end
                             className={({ isActive }) =>
                                 isActive
                                     ? 'text-purple-400 font-semibold'
                                     : 'text-white hover:text-purple-400 transition'
                             }
                         >
-                            ABOUT
+                            About
                         </NavLink>
                     </li>
                     <li>
                         <NavLink
                             to="/resources"
-                            end
                             className={({ isActive }) =>
                                 isActive
                                     ? 'text-purple-400 font-semibold'
                                     : 'text-white hover:text-purple-400 transition'
                             }
                         >
-                            RESOURCES
+                            Resources
                         </NavLink>
                     </li>
                     <li>
                         <NavLink
                             to="/contact"
-                            end
                             className={({ isActive }) =>
                                 isActive
                                     ? 'text-purple-400 font-semibold'
                                     : 'text-white hover:text-purple-400 transition'
                             }
                         >
-                            CONTACT
+                            Contact
                         </NavLink>
                     </li>
-                </ul>
-                {/* Get Started Button (Desktop) */}
-                <NavLink
-                    to="/get-started"
-                    end
-                    className="hidden md:inline-block text-[#A259FF] font-semibold px-9 py-4 rounded-full border-2 border-[#A259FF] transition focus:outline-none focus:ring-2 focus:ring-[#6C00FF] hover:bg-gradient-to-r hover:from-[#A259FF] hover:to-[#6C00FF] hover:text-white"
-                >
-                    GET STARTED
-                </NavLink>
 
-                {/* Theme Toggler */}
-                {/* <div className="ml-4">
-                    <ThemeToggler />
-                </div> */}
-                {/* Mobile Menu Button */}
+                    {/* Conditional Links by Role */}
+                    {user?.id && user.role === 'job_seeker' && (
+                        <li>
+                            <NavLink
+                                to="/job-seeker-dashboard"
+                                className="text-white hover:text-purple-400 transition"
+                            >
+                                My Dashboard
+                            </NavLink>
+                        </li>
+                    )}
+
+                    {user?.id && user.role === 'recruiter' && (
+                        <>
+                            <li>
+                                <NavLink
+                                    to="/recruiter-dashboard"
+                                    className="text-white hover:text-purple-400 transition"
+                                >
+                                    Recruiter Dashboard
+                                </NavLink>
+                            </li>
+                            <li>
+                                <NavLink
+                                    to="/post-jobs"
+                                    className="text-white hover:text-purple-400 transition"
+                                >
+                                    Post a Job
+                                </NavLink>
+                            </li>
+                        </>
+                    )}
+
+                    {/* Auth Links */}
+                    {!user?.id ? (
+                        <>
+                            <li>
+                                <NavLink
+                                    to="/login"
+                                    className="text-white hover:text-purple-400 transition"
+                                >
+                                    Login
+                                </NavLink>
+                            </li>
+                            <li>
+                                <NavLink
+                                    to="/registration"
+                                    className="text-white hover:text-purple-400 transition"
+                                >
+                                    Register
+                                </NavLink>
+                            </li>
+                        </>
+                    ) : (
+                        <li>
+                            <button
+                                onClick={handleLogout}
+                                className="text-red-400 hover:text-red-500 font-semibold"
+                            >
+                                Logout
+                            </button>
+                        </li>
+                    )}
+                </ul>
+
+                {/* Mobile Menu (optional for later) */}
                 <div className="md:hidden">
                     <button
                         type="button"
                         className="text-white focus:outline-none"
                     >
+                        {/* Add real mobile nav here later */}
                         <svg
                             className="h-8 w-8"
                             fill="none"
@@ -120,3 +158,4 @@ function Nav() {
 }
 
 export default Nav;
+
