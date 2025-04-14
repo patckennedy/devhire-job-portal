@@ -72,27 +72,21 @@ const RecruiterDashboard = () => {
             {/* Header with Logout */}
             <div className="flex justify-between items-center max-w-6xl mx-auto mb-8">
                 <h1 className="text-4xl font-bold">Recruiter Dashboard</h1>
-                {/* <button
-                    onClick={logOut}
-                    className="bg-red-600 hover:bg-red-500 text-white font-medium py-2 px-4 rounded"
-                >
-                    Log Out
-                </button> */}
             </div>
 
             {/* Metrics */}
             <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-                <div className="bg-gray-900 rounded-lg p-6 shadow-md text-center">
+                <div className="bg-[#12172A] border border-[#1abc9c]/30 hover:border-[#1abc9c]/60 hover:shadow-md transition duration-300 rounded-2xl p-6 text-center">
                     <h2 className="text-2xl font-bold mb-2">{totalJobs}</h2>
                     <p className="text-gray-400">Jobs Posted</p>
                 </div>
-                <div className="bg-gray-900 rounded-lg p-6 shadow-md text-center">
+                <div className="bg-[#12172A] border border-[#1abc9c]/30 hover:border-[#1abc9c]/60 hover:shadow-md transition duration-300 rounded-2xl p-6 text-center">
                     <h2 className="text-2xl font-bold mb-2">
                         {totalApplications}
                     </h2>
                     <p className="text-gray-400">Total Applications</p>
                 </div>
-                <div className="bg-gray-900 rounded-lg p-6 shadow-md text-center">
+                <div className="bg-[#12172A] border border-[#1abc9c]/30 hover:border-[#1abc9c]/60 hover:shadow-md transition duration-300 rounded-2xl p-6 text-center">
                     <h2 className="text-2xl font-bold mb-2">Updated Soon</h2>
                     <p className="text-gray-400">Recent Activity</p>
                 </div>
@@ -116,7 +110,7 @@ const RecruiterDashboard = () => {
                         jobs.map((job) => (
                             <div
                                 key={job.id}
-                                className="bg-gray-900 rounded-lg shadow-md p-6 flex flex-col gap-4 transition-all hover:shadow-lg"
+                                className="bg-gray-900 border border-gray-700 rounded-xl p-6 flex flex-col gap-4 transition-all duration-200 hover:border-teal-400 hover:shadow-[0_0_10px_1px_rgba(20,184,166,0.5)]"
                             >
                                 <div>
                                     <h3 className="text-xl font-semibold">
@@ -161,7 +155,7 @@ const RecruiterDashboard = () => {
                                 <div className="mt-auto flex justify-between items-center">
                                     <Link
                                         to={`/recruiter/job/${job.id}`}
-                                        className="p-3 bg-gradient-to-r from-[#A259FF] to-[#6C00FF] text-white rounded-md hover:opacity-90 transition"
+                                        className="text-sm px-4 py-2 bg-gradient-to-r from-[#A259FF] to-[#6C00FF] text-white rounded hover:opacity-90 transition"
                                     >
                                         View Details
                                     </Link>
@@ -169,7 +163,7 @@ const RecruiterDashboard = () => {
                                         onClick={() => handleDelete(job.id)}
                                         className="p-3 bg-red-600 hover:bg-red-500 text-white rounded-md transition"
                                     >
-                                        <Trash2 size={20} />
+                                        <Trash2 size={14} />
                                     </button>
                                 </div>
                             </div>
