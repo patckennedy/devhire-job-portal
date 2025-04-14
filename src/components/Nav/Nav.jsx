@@ -1,6 +1,7 @@
 import React from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import useStore from '../../zustand/store';
+import ThemeToggler from '../ThemeToggler/ThemeToggler';
 
 function Nav() {
     const user = useStore((state) => state.user);
@@ -18,14 +19,11 @@ function Nav() {
                 <div className="w-full max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
                     {/* Logo */}
                     <NavLink to="/" className="flex items-center gap-2">
-                        {/* Logo */}
-                        <NavLink to="/" className="flex items-center gap-2">
-                            <img
-                                src="/images/newlogo.png"
-                                alt="DevHire Logo"
-                                className="h-10 w-auto object-contain"
-                            />
-                        </NavLink>
+                        <img
+                            src="/images/newlogo.png"
+                            alt="DevHire Logo"
+                            className="h-10 w-auto object-contain"
+                        />
                     </NavLink>
 
                     {/* Nav links */}
@@ -45,6 +43,21 @@ function Nav() {
                                 </NavLink>
                             </li>
                         ))}
+
+                        {user?.id && user.role === 'recruiter' && (
+                            <li>
+                                <NavLink
+                                    to="/recruiter-dashboard"
+                                    className={({ isActive }) =>
+                                        isActive
+                                            ? 'text-purple-400 underline underline-offset-4'
+                                            : 'text-gray-300 hover:text-white transition'
+                                    }
+                                >
+                                    Dashboard
+                                </NavLink>
+                            </li>
+                        )}
 
                         {!user?.id ? (
                             <>
@@ -66,18 +79,37 @@ function Nav() {
                                 </li>
                             </>
                         ) : (
-                            <li>
-                                <button
-                                    onClick={handleLogout}
-                                    className="text-red-400 hover:text-red-500 transition font-semibold"
-                                >
-                                    Logout
-                                </button>
-                            </li>
+                            <>
+                                {user.role === 'recruiter' && (
+                                    <li>
+                                        <NavLink
+                                            to="/recruiter-dashboard"
+                                            className="text-gray-300 hover:text-white transition"
+                                        >
+                                            Dashboard
+                                        </NavLink>
+                                    </li>
+                                )}
+                                {user.role === 'job_seeker' && (
+                                    <li>
+                                        <NavLink
+                                            to="/job-seeker-dashboard"
+                                            className="text-gray-300 hover:text-white transition"
+                                        >
+                                            Dashboard
+                                        </NavLink>
+                                    </li>
+                                )}
+                                <li>
+                                    <button
+                                        onClick={handleLogout}
+                                        className="text-red-400 hover:text-red-500 transition font-semibold"
+                                    >
+                                        Logout
+                                    </button>
+                                </li>
+                            </>
                         )}
-                        {/* <li>
-                            <ThemeToggler />
-                        </li> */}
                     </ul>
 
                     {/* Mobile Menu (future) */}
