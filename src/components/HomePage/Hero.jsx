@@ -1,30 +1,50 @@
 import React from 'react';
+import { Typewriter } from 'react-simple-typewriter';
 
 const Hero = () => {
     return (
-        <section className="relative min-h-screen flex bg-gradient-to-b from-[#010101] to-black text-white overflow-hidden ">
-            <div className="container mx-auto px-4 py-16 flex flex-col md:flex-row items-center relative z-10">
-                {/* Left Section */}
-                <div className="w-full md:w-1/2 text-left mt-10 md:mt-0">
-                    <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold leading-tight mb-4">
-                        Find Your <br />
-                        Next Job at Dev Hire
+        <section className="relative min-h-screen flex items-center bg-gradient-to-b from-[#010101] to-black text-white">
+            <div className="container mx-auto px-6 py-10 md:py-20 flex flex-col-reverse md:flex-row items-center justify-between gap-10 md:gap-16">
+                {/* Left Content */}
+                <div className="w-full md:w-1/2 text-center md:text-left">
+                    <h1 className="text-5xl sm:text-6xl md:text-7xl font-extrabold leading-tight mb-4">
+                        <span className="text-teal-500">Great Teams</span>{' '}
+                        <br />
+                        <span>
+                            <Typewriter
+                                words={[
+                                    'Find Your Next Job',
+                                    'Start Your Dream Career',
+                                    'Level Up Today',
+                                ]}
+                                loop={0}
+                                cursor
+                                cursorStyle="|"
+                                typeSpeed={50}
+                                deleteSpeed={30}
+                                delaySpeed={2000}
+                            />
+                        </span>
                     </h1>
-                    <p className="text-gray-300 text-lg sm:text-xl md:text-2xl mb-8 max-w-xl">
-                        DevHire is the complete dark-themed solution for your
-                        job board website.
+
+                    <p className="text-gray-300 text-lg md:text-xl mb-6 md:mb-8 max-w-md md:max-w-none mx-auto md:mx-0">
+                        DevHire is your one-stop solution for discovering top
+                        tech jobs and connecting with great companies.
                     </p>
-                    <div className="flex flex-col sm:flex-row gap-4">
-                        <button className="bg-purple-600  hover:bg-purple-700 text-white font-semibold py-3 px-6 rounded-full transition">
-                            Explore Pages
-                        </button>
-                        <button className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 px-6 rounded-full transition">
-                            Explore pages
-                        </button>
-                    </div>
+                    <button className="bg-purple-600 hover:bg-purple-700 text-white font-semibold py-3 px-8 rounded-full transition duration-200">
+                        Get Started
+                    </button>
+                </div>
+
+                {/* Right Image */}
+                <div className="w-full md:w-1/2 flex justify-center">
+                    <img
+                        src="/images/womanh.png"
+                        alt="Excited woman holding phone"
+                        className="w-full max-w-md md:max-w-lg object-contain"
+                    />
                 </div>
             </div>
-           
         </section>
     );
 };
