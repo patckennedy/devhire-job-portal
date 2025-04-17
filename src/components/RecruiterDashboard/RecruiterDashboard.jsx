@@ -68,7 +68,7 @@ const RecruiterDashboard = () => {
     };
 
     return (
-        <div className="min-h-screen bg-[#04091A] text-white p-6 mt-24">
+        <div className="min-h-screen bg-[#04091A] text-white p-6 mt-20">
             {/* Header with Logout */}
             <div className="flex justify-between items-center max-w-6xl mx-auto mb-8">
                 <h1 className="text-4xl font-bold">Recruiter Dashboard</h1>
@@ -82,7 +82,7 @@ const RecruiterDashboard = () => {
                 </div>
                 <div className="bg-[#12172A] border border-[#1abc9c]/30 hover:border-[#1abc9c]/60 hover:shadow-md transition duration-300 rounded-2xl p-6 text-center">
                     <h2 className="text-2xl font-bold mb-2">
-                        {totalApplications}
+                        {Number(totalApplications)}
                     </h2>
                     <p className="text-gray-400">Total Applications</p>
                 </div>
@@ -155,15 +155,16 @@ const RecruiterDashboard = () => {
                                 <div className="mt-auto flex justify-between items-center">
                                     <Link
                                         to={`/recruiter/job/${job.id}`}
-                                        className="text-sm px-4 py-2 bg-gradient-to-r from-[#A259FF] to-[#6C00FF] text-white rounded hover:opacity-90 transition"
+                                        className="text-sm px-4 py-1 bg-gradient-to-r from-[#A259FF] to-[#6C00FF] text-white rounded hover:opacity-90 transition"
                                     >
                                         View Details
                                     </Link>
                                     <button
                                         onClick={() => handleDelete(job.id)}
-                                        className="p-3 bg-red-600 hover:bg-red-500 text-white rounded-md transition"
+                                        // className="p-3 bg-red-600 hover:bg-red-500 text-white rounded-md transition"
+                                        className="p-3 text-red-400 hover:text-red-500 transition"
                                     >
-                                        <Trash2 size={14} />
+                                        <Trash2 size={18} />
                                     </button>
                                 </div>
                             </div>
