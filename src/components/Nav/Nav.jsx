@@ -1,139 +1,133 @@
-import React from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
 import useStore from '../../zustand/store';
-import ThemeToggler from '../ThemeToggler/ThemeToggler';
+import ModernJobCard from '../ModernJobCard/ModernJobCard';
 
-function Nav() {
+const JobSeekerDashboard = () => {
+    console.log('JobSeekerDashboard loaded');
     const user = useStore((state) => state.user);
     const logOut = useStore((state) => state.logOut);
-    const navigate = useNavigate();
+    const [jobs, setJobs] = useState([]);
+    const [savedJobs, setSavedJobs] = useState([]);
+    const [appliedJobs, setAppliedJobs] = useState([]);
+    const [searchTerm, setSearchTerm] = useState('');
 
-    const handleLogout = () => {
-        logOut();
-        navigate('/login');
-    };
+    useEffect(() => {
+        if (!user.id) return;
+
+        fetch(`http://localhost:5008/api/applied-jobs/${user.id}`)
+            .then((res) => res.json())
+            .then((data) => setAppliedJobs(data))
+            .catch((err) => console.error('Error fetching applied jobs:', err));
+    }, [user.id]);
+
+    useEffect(() => {
+        if (!user.id) return;
+
+        fetch(`http://localhost:5008/api/saved-jobs/${user.id}`)
+            .then((res) => res.json())
+            .then((data) => setSavedJobs(data))
+            .catch((err) => console.error('Error fetching saved jobs:', err));
+    }, [user.id]);
+
+    useEffect(() => {
+        fetch('http://localhost:5008/api/jobs')
+            .then((res) => res.json())
+            .then((data) => setJobs(data))
+            .catch((err) => console.error('Error fetching jobs:', err));
+    }, []);
+
+    // 🔍 Filter jobs based on search input
+    const filteredJobs = jobs.filter(
+        (job) =>
+            job.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            job.company_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            job.location.toLowerCase().includes(searchTerm.toLowerCase())
+    );
 
     return (
-        <>
-            <nav className="fixed top-0 left-0 right-0 z-50 backdrop-blur-md bg-black/50 border-b border-gray-700">
-                <div className="w-full max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
-                    {/* Logo */}
-                    <NavLink to="/" className="flex items-center gap-2">
-                        <img
-                            src="/images/newlogo.png"
-                            alt="DevHire Logo"
-                            className="h-10 w-auto object-contain"
-                        />
-                    </NavLink>
+        <div className="min-h-screen bg-[#04091A] text-white p-6 pt-28">
+            {/* Header */}
+            <div className="flex justify-between items-center mb-10 max-w-7xl mx-auto">
+                <h1 className="text-3xl font-bold">
+                    Welcome, {user?.name || 'Jobseeker'}
+                </h1>
+            </div>
 
-                    {/* Nav links */}
-                    <ul className="hidden md:flex items-center gap-8 text-lg font-medium">
-                        {['about', 'resources', 'contact'].map((link) => (
-                            <li key={link}>
-                                <NavLink
-                                    to={`/${link}`}
-                                    className={({ isActive }) =>
-                                        isActive
-                                            ? 'text-purple-400 underline underline-offset-4'
-                                            : 'text-gray-300 hover:text-white transition'
-                                    }
-                                >
-                                    {link.charAt(0).toUpperCase() +
-                                        link.slice(1)}
-                                </NavLink>
-                            </li>
+            {/* Search Input */}
+
+            {/* Search Input with Button */}
+            <div className="max-w-2xl mx-auto mb-10">
+                <input
+                    type="text"
+                    placeholder="Search by job title, company, or location..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="w-full px-4 py-3 rounded-md bg-gray-800 text-white border border-gray-600 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                />
+            </div>
+
+            {/* Available Jobs */}
+            <section className="max-w-7xl mx-auto mb-12">
+                <h2 className="text-2xl font-semibold mb-4">Available Jobs</h2>
+                {filteredJobs.length > 0 ? (
+                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {filteredJobs.map((job) => (
+                            <ModernJobCard
+                                key={job.id}
+                                job={job}
+                                savedJobs={savedJobs}
+                                updateSavedJobs={setSavedJobs}
+                            />
                         ))}
-
-                        {user?.id && user.role === 'recruiter' && (
-                            <li>
-                                <NavLink
-                                    to="/recruiter-dashboard"
-                                    className={({ isActive }) =>
-                                        isActive
-                                            ? 'text-purple-400 underline underline-offset-4'
-                                            : 'text-gray-300 hover:text-white transition'
-                                    }
-                                >
-                                    Dashboard
-                                </NavLink>
-                            </li>
-                        )}
-
-                        {!user?.id ? (
-                            <>
-                                <li>
-                                    <NavLink
-                                        to="/login"
-                                        className="text-gray-300 hover:text-white transition"
-                                    >
-                                        Login
-                                    </NavLink>
-                                </li>
-                                <li>
-                                    <NavLink
-                                        to="/registration"
-                                        className="text-gray-300 hover:text-white transition"
-                                    >
-                                        Register
-                                    </NavLink>
-                                </li>
-                            </>
-                        ) : (
-                            <>
-                                {user.role === 'recruiter' && (
-                                    <li>
-                                        <NavLink
-                                            to="/recruiter-dashboard"
-                                            className="text-gray-300 hover:text-white transition"
-                                        >
-                                            Dashboard
-                                        </NavLink>
-                                    </li>
-                                )}
-                                {user.role === 'job_seeker' && (
-                                    <li>
-                                        <NavLink
-                                            to="/job-seeker-dashboard"
-                                            className="text-gray-300 hover:text-white transition"
-                                        >
-                                            Dashboard
-                                        </NavLink>
-                                    </li>
-                                )}
-                                <li>
-                                    <button
-                                        onClick={handleLogout}
-                                        className="text-red-400 hover:text-red-500 transition font-semibold"
-                                    >
-                                        Logout
-                                    </button>
-                                </li>
-                            </>
-                        )}
-                    </ul>
-
-                    {/* Mobile Menu (future) */}
-                    <div className="md:hidden">
-                        <button className="text-white">
-                            <svg
-                                className="h-6 w-6"
-                                fill="none"
-                                stroke="currentColor"
-                                viewBox="0 0 24 24"
-                            >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth={2}
-                                    d="M4 6h16M4 12h16M4 18h16"
-                                />
-                            </svg>
-                        </button>
                     </div>
-                </div>
-            </nav>
-        </>
-    );
-}
+                ) : (
+                    <p className="text-gray-400">No jobs found.</p>
+                )}
+            </section>
 
-export default Nav;
+            {/* Applied Jobs */}
+            <section className="max-w-7xl mx-auto mb-12">
+                <h2 className="text-2xl font-semibold mb-4">
+                    Jobs I’ve Applied To
+                </h2>
+                {appliedJobs.length > 0 ? (
+                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {appliedJobs.map((job) => (
+                            <ModernJobCard key={job.id} job={job} />
+                        ))}
+                    </div>
+                ) : (
+                    <p className="text-gray-400">
+                        You haven’t applied to any jobs yet.
+                    </p>
+                )}
+            </section>
+            {/* Saved Jobs */}
+            {/* Saved Jobs */}
+            {/* Saved Jobs */}
+            <section className="max-w-7xl mx-auto mb-12">
+                <h2 className="text-2xl font-semibold mb-4">Saved Jobs</h2>
+                {savedJobs.length > 0 ? (
+                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {savedJobs.map((job) => (
+                            <ModernJobCard
+                                key={job.id}
+                                job={job}
+                                savedJobs={savedJobs}
+                                updateSavedJobs={(updatedList) =>
+                                    setSavedJobs([...updatedList])
+                                }
+                            />
+                        ))}
+                    </div>
+                ) : (
+                    <p className="text-gray-400">
+                        You haven’t saved any jobs yet.
+                    </p>
+                )}
+            </section>
+        </div>
+    );
+};
+
+export default JobSeekerDashboard;
