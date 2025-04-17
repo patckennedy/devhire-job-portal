@@ -192,6 +192,7 @@ const RecruiterJobDetails = () => {
                             >
                                 Cancel
                             </button>
+                            <button></button>
                         </div>
                     </div>
                 )}
