@@ -124,7 +124,7 @@ const ViewJobDetails = () => {
                         </p>
                         <a
                             href="/resources"
-                            className="block text-center border border-blue-500 text-blue-400 py-2 rounded-lg hover:bg-blue-500 hover:text-white transition"
+                            className="block text-center border border-teal-500 text-teal-400 py-2 rounded-lg hover:bg-teal-500 hover:text-white transition"
                         >
                             Explore Resources
                         </a>
