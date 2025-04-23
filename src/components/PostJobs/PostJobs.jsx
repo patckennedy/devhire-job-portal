@@ -2,16 +2,6 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { motion } from 'framer-motion';
 import useStore from '../../zustand/store';
-import {
-    Briefcase,
-    Building,
-    MapPin,
-    DollarSign,
-    AlignLeft,
-    ClipboardList,
-    Globe,
-    UploadCloud,
-} from 'lucide-react';
 
 const PostJobs = () => {
     const [formData, setFormData] = useState({
@@ -113,16 +103,42 @@ const PostJobs = () => {
         hidden: { opacity: 0, y: 15 },
         visible: { opacity: 1, y: 0 },
     };
+    /////////////////////////////////////////////demo only-delete after presentatin
+    const handleDemoFill = () => {
+        setFormData({
+            title: 'Junior Frontend Developer',
+            company: 'TechNova Inc.',
+            location: 'California',
+            jobType: 'Full-time',
+            salary: '70000',
+            description:
+                'We’re looking for a junior frontend developer to help build amazing user experiences using React.',
+            requirements:
+                '1+ years of experience with HTML, CSS, JavaScript. Familiarity with React is a plus.',
+            applyLink: 'https://technova.com/apply',
+            logo: null,
+            jobStatus: 'Open',
+        });
+    };
 
     return (
         <div className="min-h-screen bg-gradient-to-b from-[#04091A] to-black text-white overflow-hidden">
             <div className="max-w-9xl mx-auto pt-36 px-4 sm:px-6 lg:px-8">
+                <div className="text-right mb-4 max-w-7xl mx-auto">
+                    <a
+                        href="/recruiter-dashboard"
+                        className="text-purple-400 hover:underline text-sm font-medium"
+                    >
+                        ← Back to Dashboard
+                    </a>
+                </div>
+
                 <h2 className="text-center text-3xl sm:text-4xl font-bold mb-10">
                     Post a Job
                 </h2>
             </div>
 
-            <div className="p-6">
+            <div className="mt-[-12px]">
                 <motion.div
                     className="border border-gray-700 w-full max-w-7xl bg-gray-900 rounded-lg shadow-lg p-6 mx-auto"
                     variants={containerVariants}
@@ -139,6 +155,16 @@ const PostJobs = () => {
                             {message}
                         </motion.div>
                     )}
+                    {/* delete after presentation */}
+                    <div className="flex justify-end mb-4">
+                        <button
+                            type="button"
+                            onClick={handleDemoFill}
+                            className="px-2 py- text-sm  bg-gray-800 hover:bg-gray-700 text-white rounded"
+                        >
+                            Demo Fill
+                        </button>
+                    </div>
 
                     <motion.form
                         onSubmit={handleSubmit}
@@ -151,7 +177,6 @@ const PostJobs = () => {
                         >
                             <label className="block">
                                 <span className="flex items-center text-gray-200 font-medium mb-2">
-                                    <Briefcase className="mr-2 h-4 w-4" /> Job
                                     Title
                                 </span>
                                 <input
@@ -159,7 +184,7 @@ const PostJobs = () => {
                                     name="title"
                                     value={formData.title}
                                     onChange={handleChange}
-                                    className="w-full p-3 rounded bg-gray-800 text-white focus:outline-none focus:ring-1 focus:ring-purple-600 border-none"
+                                    className="w-full p-3 rounded bg-gray-800 text-white placeholder:text-sm placeholder:italic focus:outline-none focus:ring-1 focus:ring-purple-600 border-none"
                                     placeholder="e.g., Software Engineer"
                                     required
                                 />
@@ -167,7 +192,6 @@ const PostJobs = () => {
 
                             <label className="block">
                                 <span className="flex items-center text-gray-200 font-medium mb-2">
-                                    <Building className="mr-2 h-4 w-4" />{' '}
                                     Company
                                 </span>
                                 <input
@@ -175,7 +199,7 @@ const PostJobs = () => {
                                     name="company"
                                     value={formData.company}
                                     onChange={handleChange}
-                                    className="w-full p-3 rounded bg-gray-800 text-white focus:outline-none focus:ring-1 focus:ring-purple-600 border-none"
+                                    className="w-full p-3 rounded bg-gray-800 text-white placeholder:text-sm placeholder:italic focus:outline-none focus:ring-1 focus:ring-purple-600 border-none"
                                     placeholder="e.g., DevHire Inc."
                                     required
                                 />
@@ -184,7 +208,7 @@ const PostJobs = () => {
                             {/* Location Drop Down */}
                             <label className="block">
                                 <span className="flex items-center text-gray-200 font-medium mb-2">
-                                    <MapPin className="mr-2 h-4 w-4" /> Location
+                                    Location
                                 </span>
                                 <select
                                     name="location"
@@ -213,7 +237,7 @@ const PostJobs = () => {
 
                             <label className="block">
                                 <span className="flex items-center text-gray-200 font-medium mb-2">
-                                    <Globe className="mr-2 h-4 w-4" /> Job Type
+                                    Job Type
                                 </span>
                                 <select
                                     name="jobType"
@@ -231,7 +255,6 @@ const PostJobs = () => {
 
                             <label className="block">
                                 <span className="flex items-center text-gray-200 font-medium mb-2">
-                                    <DollarSign className="mr-2 h-4 w-4" />{' '}
                                     Salary (Optional)
                                 </span>
                                 <input
@@ -240,7 +263,7 @@ const PostJobs = () => {
                                     placeholder="e.g., 60000"
                                     value={formData.salary}
                                     onChange={handleChange}
-                                    className="w-full p-3 rounded bg-gray-800 text-white focus:outline-none focus:ring-1 focus:ring-purple-600 border-none"
+                                    className="w-full p-3 rounded bg-gray-800 text-white placeholder:text-sm placeholder:italic focus:outline-none focus:ring-1 focus:ring-purple-600 border-none"
                                     min="0"
                                     step="1000"
                                 />
@@ -248,7 +271,6 @@ const PostJobs = () => {
 
                             <label className="block">
                                 <span className="flex items-center text-gray-200 font-medium mb-2">
-                                    <ClipboardList className="mr-2 h-4 w-4" />{' '}
                                     Job Status
                                 </span>
                                 <select
@@ -275,14 +297,13 @@ const PostJobs = () => {
                         >
                             <label className="block">
                                 <span className="flex items-center text-gray-200 font-medium mb-2">
-                                    <AlignLeft className="mr-2 h-4 w-4" /> Job
-                                    Description
+                                    Job Description
                                 </span>
                                 <textarea
                                     name="description"
                                     value={formData.description}
                                     onChange={handleChange}
-                                    className="w-full p-3 rounded bg-gray-800 text-white focus:outline-none focus:ring-1 focus:ring-purple-600 border-none"
+                                    className="w-full p-3 rounded bg-gray-800 text-white placeholder:text-sm placeholder:italic focus:outline-none focus:ring-1 focus:ring-purple-600 border-none"
                                     rows="4"
                                     placeholder="Brief overview of the role..."
                                     required
@@ -291,14 +312,13 @@ const PostJobs = () => {
 
                             <label className="block">
                                 <span className="flex items-center text-gray-200 font-medium mb-2">
-                                    <ClipboardList className="mr-2 h-4 w-4" />{' '}
                                     Job Requirements
                                 </span>
                                 <textarea
                                     name="requirements"
                                     value={formData.requirements}
                                     onChange={handleChange}
-                                    className="w-full p-3 rounded bg-gray-800 text-white focus:outline-none focus:ring-1 focus:ring-purple-600 border-none"
+                                    className="w-full p-3 rounded bg-gray-800 text-white placeholder:text-sm placeholder:italic focus:outline-none focus:ring-1 focus:ring-purple-600 border-none"
                                     rows="4"
                                     placeholder="Required skills, experience, etc."
                                     required
@@ -307,7 +327,6 @@ const PostJobs = () => {
 
                             <label className="block">
                                 <span className="flex items-center text-gray-200 font-medium mb-2">
-                                    <Globe className="mr-2 h-4 w-4" />{' '}
                                     Application Link (Optional)
                                 </span>
                                 <input
@@ -316,13 +335,12 @@ const PostJobs = () => {
                                     placeholder="e.g., https://company.com/apply"
                                     value={formData.applyLink}
                                     onChange={handleChange}
-                                    className="w-full p-3 rounded bg-gray-800 text-white focus:outline-none focus:ring-1 focus:ring-purple-600 border-none"
+                                    className="w-full p-3 rounded bg-gray-800 text-white placeholder:text-sm placeholder:italic focus:outline-none focus:ring-1 focus:ring-purple-600 border-none"
                                 />
                             </label>
 
                             <label className="block">
                                 <span className="flex items-center text-gray-200 font-medium mb-2">
-                                    <UploadCloud className="mr-2 h-4 w-4" />{' '}
                                     Company Logo (Optional)
                                 </span>
                                 <input
@@ -343,7 +361,7 @@ const PostJobs = () => {
                                 type="submit"
                                 className="w-full py-3 mt-2 rounded text-white font-semibold bg-gradient-to-r from-[#A259FF] to-[#6C00FF] hover:opacity-90 transition focus:outline-none focus:ring-2 focus:ring-purple-600"
                             >
-                                Submit for approval
+                                Post Job
                             </button>
                         </motion.div>
                     </motion.form>
