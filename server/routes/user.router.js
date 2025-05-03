@@ -2,65 +2,53 @@ const express = require('express');
 const encryptLib = require('../modules/encryption');
 const pool = require('../modules/pool');
 const userStrategy = require('../strategies/user.strategy');
-
-
 const router = express.Router();
 
-// If the request came from an authenticated user, this route
-// sends back an object containing that user's information.
-// Otherwise, it sends back an empty object to indicate there
-// is not an active session.
+// GET: fetch current user session info
 router.get('/', (req, res) => {
-  if (req.isAuthenticated()) {
-    res.send(req.user);
-  } else {
-    res.send({});
-  }
+    if (req.isAuthenticated()) {
+        res.send(req.user);
+    } else {
+        res.send({});
+    }
 });
 
-// Handles the logic for creating a new user. The one extra wrinkle here is
-// that we hash the password before inserting it into the database.
-router.post('/register', (req, res, next) => {
-  const username = req.body.username;
-  const hashedPassword = encryptLib.encryptPassword(req.body.password);
+// POST: register new user
+router.post('/register', (req, res) => {
+    const { username, password, role } = req.body;
+    const hashedPassword = encryptLib.encryptPassword(password);
 
-  const sqlText = `
-    INSERT INTO "user"
-      ("username", "password")
-      VALUES
-      ($1, $2);
-  `;
-  const sqlValues = [username, hashedPassword];
+    const sqlText = `
+        INSERT INTO "user" (username, password, role)
+        VALUES ($1, $2, $3);
+    `;
 
-  pool.query(sqlText, sqlValues)
-    .then(() => {
-      res.sendStatus(201)
-    })
-    .catch((dbErr) => {
-      console.log('POST /api/user/register error: ', dbErr);
-      res.sendStatus(500);
+    pool.query(sqlText, [username, hashedPassword, role])
+        .then(() => res.sendStatus(201))
+        .catch((dbErr) => {
+            console.log('POST /api/user/register error:', dbErr);
+            res.sendStatus(500);
+        });
+});
+
+//NEW: POST /api/user/login
+router.post('/login', userStrategy.authenticate('local'), (req, res) => {
+    res.sendStatus(200);
+});
+
+// Add this to handle user login after registration
+router.post('/login', userStrategy.authenticate('local'), (req, res) => {
+    res.sendStatus(200); // Login successful
+});
+
+// POST: logout
+router.post('/logout', (req, res, next) => {
+    req.logout((err) => {
+        if (err) return next(err);
+        res.sendStatus(200);
     });
 });
 
-// Handles the logic for logging in a user. When this route receives
-// a request, it runs a middleware function that leverages the Passport
-// library to instantiate a session if the request body's username and
-// password are correct.
-  // You can find this middleware function in /server/strategies/user.strategy.js.
-router.post('/login', userStrategy.authenticate('local'), (req, res) => {
-  res.sendStatus(200);
-});
-
-// Clear all server session information about this user:
-router.post('/logout', (req, res, next) => {
-  // Use passport's built-in method to log out the user.
-  req.logout((err) => {
-    if (err) { 
-      return next(err); 
-    }
-    res.sendStatus(200);
-  });
-});
 
 
 module.exports = router;
