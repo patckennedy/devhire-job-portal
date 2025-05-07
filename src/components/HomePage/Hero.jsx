@@ -3,7 +3,7 @@ import { Typewriter } from 'react-simple-typewriter';
 
 const Hero = () => {
     return (
-        <section className="relative min-h-screen flex items-center bg-gradient-to-b from-[#010101] to-black text-white">
+        <section className="relative min-h-screen flex items-center bg-[#04091A] text-white">
             <div className="container mx-auto px-6 py-10 md:py-20 flex flex-col-reverse md:flex-row items-center justify-between gap-10 md:gap-16">
                 {/* Left Content */}
                 <div className="w-full md:w-1/2 text-center md:text-left">
@@ -37,7 +37,7 @@ const Hero = () => {
                 </div>
 
                 {/* Right Image */}
-                <div className="w-full md:w-1/2 flex justify-center">
+                <div className="w-full md:w-1/2 flex justify-center object-contain rounded-xl shadow-[0_0_25px_#2dd4bf] animate-pulse">
                     <img
                         src="/images/womanh.png"
                         alt="Excited woman holding phone"
