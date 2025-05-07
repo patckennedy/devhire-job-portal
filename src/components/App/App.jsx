@@ -14,21 +14,9 @@ import RecruiterDashboard from '../RecruiterDashboard/RecruiterDashboard';
 import RecruiterJobDetails from '../RecruiterJobDetails/RecruiterJobDetails';
 import PostJobs from '../PostJobs/PostJobs';
 import ViewJobDetails from '../ViewJobDetails/ViewJobDetails';
-
-// Optional placeholders
-const Contact = () => (
-    <h2 className="pt-28 text-white text-center">Contact Page (Coming Soon)</h2>
-);
-const Resources = () => (
-    <h2 className="pt-28 text-white text-center">
-        Resources Page (Coming Soon)
-    </h2>
-);
-// const PostJobs = () => (
-//     <h2 className="pt-28 text-white text-center">
-//         Post a Job Page (Coming Soon)
-//     </h2>
-// );
+import Footer from '../Footer/Footer';
+import Resources from '../Resources/Resources';
+import Contact from '../Contact/Contact';
 
 function App() {
     const user = useStore((state) => state.user);
@@ -50,19 +38,12 @@ function App() {
                     <Route path="/" element={<HomePage />} />
                     <Route path="/about" element={<About />} />
                     <Route path="/contact" element={<Contact />} />
-                    <Route path="/resources" element={<Resources />} />
+                    <Route path="/Resources" element={<Resources />} />
+
+                    {/* <Route path="/resources" element={<Resources />} /> */}
 
                     {/* Auth Routes */}
-                    {/* <Route
-                        path="/login"
-                        element={
-                            user.id ? (
-                                <Navigate to="/" replace />
-                            ) : (
-                                <LoginPage />
-                            )
-                        }
-                    /> */}
+
                     <Route
                         path="/login"
                         element={
@@ -149,11 +130,7 @@ function App() {
                 </Routes>
             </main>
 
-            <footer>
-                <p className="text-center text-gray-400 py-6">
-                    Copyright © {new Date().getFullYear()}
-                </p>
-            </footer>
+            <Footer />
         </>
     );
 }
