@@ -3,14 +3,11 @@ import { FaHeart } from 'react-icons/fa';
 
 const Footer = () => {
     return (
-        <footer className="bg-gray-900 text-white py-8">
+        <footer className="bg-gradient-to-b from-[#010101] to-black text-white">
+            {' '}
             {/* Horizontal line to separate footer */}
             <hr className="border-gray-700 mb-6" />
             <div className="container mx-auto px-4 text-center">
-                <p className="text-sm">
-                    &copy; {new Date().getFullYear()} DevHire. All rights
-                    reserved.
-                </p>
                 <div className="mt-4 flex justify-center space-x-4">
                     <a
                         href="/privacy"
@@ -31,9 +28,13 @@ const Footer = () => {
                         Contact
                     </a>
                 </div>
-                <p className="text-center text-sm text-gray-600">
+                <p className="text-sm pt-4">
+                    &copy; {new Date().getFullYear()} DevHire. All rights
+                    reserved.
+                </p>
+                <p className="text-center text-sm text-gray-600 pt-4">
                     Made with <FaHeart className="inline text-red-500 mx-1" />{' '}
-                    by candy
+                    by Patricia Kennedy
                 </p>
             </div>
         </footer>
