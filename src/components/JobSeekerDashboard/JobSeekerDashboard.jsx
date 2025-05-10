@@ -3,13 +3,13 @@ import useStore from '../../zustand/store';
 import ModernJobCard from '../ModernJobCard/ModernJobCard';
 
 const JobSeekerDashboard = () => {
-    console.log('✅ JobSeekerDashboard loaded'); // Debug log
+    console.log('JobSeekerDashboard loaded');
     const user = useStore((state) => state.user);
     const logOut = useStore((state) => state.logOut);
     const [jobs, setJobs] = useState([]);
-
     const [savedJobs, setSavedJobs] = useState([]);
     const [appliedJobs, setAppliedJobs] = useState([]);
+    const [searchTerm, setSearchTerm] = useState('');
 
     useEffect(() => {
         if (!user.id) return;
@@ -36,28 +36,48 @@ const JobSeekerDashboard = () => {
             .catch((err) => console.error('Error fetching jobs:', err));
     }, []);
 
+    // 🔍 Filter jobs based on search input
+    const filteredJobs = jobs.filter(
+        (job) =>
+            job.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            job.company_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            job.location.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
     return (
         <div className="min-h-screen bg-[#04091A] text-white p-6 pt-28">
             {/* Header */}
             <div className="flex justify-between items-center mb-10 max-w-7xl mx-auto">
                 <h1 className="text-3xl font-bold">
-                    Welcome, {user?.name || 'Job Seeker'}!
+                    Welcome, {user?.name || 'Jobseeker'}
                 </h1>
-                <button
-                    onClick={logOut}
-                    className="bg-red-600 hover:bg-red-500 px-4 py-2 rounded font-medium"
-                >
-                    Log Out
-                </button>
+            </div>
+
+            {/* Search Input */}
+
+            {/* Search Input with Button */}
+            <div className="max-w-2xl mx-auto mb-10">
+                <input
+                    type="text"
+                    placeholder="Search by job title, company, or location..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="w-full px-4 py-3 rounded-md bg-gray-800 text-white border border-gray-600 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                />
             </div>
 
             {/* Available Jobs */}
             <section className="max-w-7xl mx-auto mb-12">
                 <h2 className="text-2xl font-semibold mb-4">Available Jobs</h2>
-                {jobs.length > 0 ? (
+                {filteredJobs.length > 0 ? (
                     <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {jobs.map((job) => (
-                            <ModernJobCard key={job.id} job={job} />
+                        {filteredJobs.map((job) => (
+                            <ModernJobCard
+                                key={job.id}
+                                job={job}
+                                savedJobs={savedJobs}
+                                updateSavedJobs={setSavedJobs}
+                            />
                         ))}
                     </div>
                 ) : (
@@ -65,24 +85,7 @@ const JobSeekerDashboard = () => {
                 )}
             </section>
 
-            {/* Saved Jobs */}
-            <section className="max-w-7xl mx-auto mb-12">
-                <h2 className="text-2xl font-semibold mb-4">My Saved Jobs</h2>
-                {savedJobs.length > 0 ? (
-                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {savedJobs.map((job) => (
-                            <ModernJobCard key={job.id} job={job} />
-                        ))}
-                    </div>
-                ) : (
-                    <p className="text-gray-400">
-                        You haven’t saved any jobs yet.
-                    </p>
-                )}
-            </section>
-
             {/* Applied Jobs */}
-
             <section className="max-w-7xl mx-auto mb-12">
                 <h2 className="text-2xl font-semibold mb-4">
                     Jobs I’ve Applied To
@@ -96,6 +99,30 @@ const JobSeekerDashboard = () => {
                 ) : (
                     <p className="text-gray-400">
                         You haven’t applied to any jobs yet.
+                    </p>
+                )}
+            </section>
+            {/* Saved Jobs */}
+            {/* Saved Jobs */}
+            {/* Saved Jobs */}
+            <section className="max-w-7xl mx-auto mb-12">
+                <h2 className="text-2xl font-semibold mb-4">Saved Jobs</h2>
+                {savedJobs.length > 0 ? (
+                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {savedJobs.map((job) => (
+                            <ModernJobCard
+                                key={job.id}
+                                job={job}
+                                savedJobs={savedJobs}
+                                updateSavedJobs={(updatedList) =>
+                                    setSavedJobs([...updatedList])
+                                }
+                            />
+                        ))}
+                    </div>
+                ) : (
+                    <p className="text-gray-400">
+                        You haven’t saved any jobs yet.
                     </p>
                 )}
             </section>
