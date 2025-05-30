@@ -24,10 +24,9 @@ DevHire is a modern, full-stack job platform built with the PERN stack (PostgreS
 ## 💻 Getting Started
 1. Clone the repo:
     ```bash
-    git clone https://github.com/YOUR_GITHUB/DevHire.git
+    git clone https://github.com/patckennedy/DevHire.git
     cd DevHire
     ```
-
 2. Install dependencies for both frontend and backend:
     ```bash
     cd client
@@ -35,7 +34,6 @@ DevHire is a modern, full-stack job platform built with the PERN stack (PostgreS
     cd ../server
     npm install
     ```
-
 3. Configure environment variables:
     - Copy `.env.example` to `.env` in `/server` and fill in your database URL, JWT secret, etc.
 
@@ -52,18 +50,14 @@ DevHire is a modern, full-stack job platform built with the PERN stack (PostgreS
         ```bash
         npm start
         ```
-
 ---
-
 ## 🌐 Live Demo
 - **Portfolio:** [patckennedy.com](https://patckennedy.com)
 - **Demo link:** Coming soon
-
 ---
 
-## 🛡️ My Backend Strengths
+## 🛡️ Backend
 My background in database development, server administration, and network security gives me an edge in building secure and scalable backend systems. For DevHire, I’ve prioritized:
-
 - **Data Integrity:** Carefully normalized relational schemas (PostgreSQL).
 - **Security:** Strict role-based access, encrypted tokens, input validation, and best practices for secure deployments.
 - **Scalability:** Designed to support cloud migration (Supabase, Neon, AWS RDS, etc.).
@@ -80,12 +74,10 @@ My background in database development, server administration, and network securi
 
 ## 📈 What Sets DevHire Apart
 DevHire isn’t just another CRUD job board—it's architected for real-world growth and professional extensibility. My experience in IT infrastructure and backend development means I think deeply about:
-
 - Database performance tuning
 - Scalable API architecture
 - Security from day one
 - Realistic production deployment (Docker, cloud DB, CI/CD—coming soon)
-
 ---
 
 ## 👩🏾💻 About Me
@@ -98,7 +90,6 @@ DevHire isn’t just another CRUD job board—it's architected for real-world gr
 - [Portfolio](https://patckennedy.com)  
 - [LinkedIn](https://linkedin.com/in/YOUR-LINKEDIN)  
 - [GitHub](https://github.com/YOUR-USERNAME)  
-
 ---
 
 ## 📄 License
