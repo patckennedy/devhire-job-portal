@@ -1,7 +1,7 @@
 
 # DevHire: Full-Stack Job Platform for Software Engineers
 
-DevHire is a modern, full-stack job platform built with the PERN stack (PostgreSQL, Express, React, Node.js) and designed specifically for software engineers. This application enables recruiters to post jobs, manage applications, and connect with talent, while job seekers can search, apply, and track their application status—all in one place.
+DevHire is a modern, full-stack job platform built as my solo project using the PERN stack (PostgreSQL, Express, React, Node.js) and designed specifically for software engineers. This application enables recruiters to post jobs, manage applications, and connect with talent, while job seekers can search, apply, and track their application status—all in one place.
 ---
 
 ## 🚀 Key Features
