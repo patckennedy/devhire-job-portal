@@ -88,8 +88,8 @@ DevHire isn’t just another CRUD job board—it's architected for real-world gr
 
 **Let’s connect:**  
 - [Portfolio](https://patckennedy.com)  
-- [LinkedIn](https://linkedin.com/in/YOUR-LINKEDIN)  
-- [GitHub](https://github.com/YOUR-USERNAME)  
+- [LinkedIn](https://linkedin.com/in/patckennedy)  
+- [GitHub](https://github.com/patckennedy)  
 ---
 
 ## 📄 License
