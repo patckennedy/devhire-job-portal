@@ -13,7 +13,7 @@ const RecruiterDashboard = () => {
 
     useEffect(() => {
         if (!user.id) return;
-        fetch(`http://localhost:5008/api/jobs/recruiter/${user.id}`)
+        fetch(`http://localhost:5001/api/jobs/recruiter/${user.id}`)
             .then((res) => res.json())
             .then((data) => {
                 setJobs(data);
@@ -32,7 +32,7 @@ const RecruiterDashboard = () => {
     const handleStatusChange = async (jobId, newStatus) => {
         try {
             const res = await fetch(
-                `http://localhost:5008/api/jobs/${jobId}/status`,
+                `http://localhost:5001/api/jobs/${jobId}/status`,
                 {
                     method: 'PATCH',
                     headers: { 'Content-Type': 'application/json' },
