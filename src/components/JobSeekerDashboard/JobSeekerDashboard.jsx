@@ -14,7 +14,7 @@ const JobSeekerDashboard = () => {
     useEffect(() => {
         if (!user.id) return;
 
-        fetch(`http://localhost:5008/api/applied-jobs/${user.id}`)
+        fetch(`http://localhost:5001/api/applied-jobs/${user.id}`)
             .then((res) => res.json())
             .then((data) => setAppliedJobs(data))
             .catch((err) => console.error('Error fetching applied jobs:', err));
@@ -23,14 +23,14 @@ const JobSeekerDashboard = () => {
     useEffect(() => {
         if (!user.id) return;
 
-        fetch(`http://localhost:5008/api/saved-jobs/${user.id}`)
+        fetch(`http://localhost:5001/api/saved-jobs/${user.id}`)
             .then((res) => res.json())
             .then((data) => setSavedJobs(data))
             .catch((err) => console.error('Error fetching saved jobs:', err));
     }, [user.id]);
 
     useEffect(() => {
-        fetch('http://localhost:5008/api/jobs')
+        fetch('http://localhost:5001/api/jobs')
             .then((res) => res.json())
             .then((data) => setJobs(data))
             .catch((err) => console.error('Error fetching jobs:', err));
@@ -103,8 +103,7 @@ const JobSeekerDashboard = () => {
                 )}
             </section>
             {/* Saved Jobs */}
-            {/* Saved Jobs */}
-            {/* Saved Jobs */}
+
             <section className="max-w-7xl mx-auto mb-12">
                 <h2 className="text-2xl font-semibold mb-4">Saved Jobs</h2>
                 {savedJobs.length > 0 ? (
