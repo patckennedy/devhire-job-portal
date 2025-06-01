@@ -25,7 +25,7 @@ const PostJobs = () => {
     // Fetch states from API (fixed + log)
     useEffect(() => {
         axios
-            .get('http://localhost:5008/api/states')
+            .get('http://localhost:5001/api/states')
             .then((response) => {
                 console.log('States fetched from backend:', response.data);
                 setStates(response.data);
@@ -63,7 +63,7 @@ const PostJobs = () => {
         };
 
         axios
-            .post('http://localhost:5008/api/jobs', jobData)
+            .post('http://localhost:5001/api/jobs', jobData)
             .then((response) => {
                 console.log('Job Posted:', response.data);
                 setMessage('Job posted successfully!');
