@@ -7,7 +7,7 @@ const pool = require('./modules/pool');
 const passport = require('./strategies/user.strategy');
 
 const app = express();
-const PORT = process.env.PORT || 5008;
+const PORT = process.env.PORT || 5001;
 
 // Use CORS with credentials for frontend
 const corsOptions = {
