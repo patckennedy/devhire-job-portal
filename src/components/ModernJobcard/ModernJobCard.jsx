@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import useStore from '../../zustand/store';
 
-const ModernJobCard = ({ job, savedJobs = [] }) => {
+const ModernJobCard = ({ job, savedJobs = [], updateSavedJobs }) => {
     const user = useStore((state) => state.user);
     const [isSaved, setIsSaved] = useState(false);
 
@@ -24,16 +24,27 @@ const ModernJobCard = ({ job, savedJobs = [] }) => {
             if (isSaved) {
                 // Unsave job
                 await axios.delete(
-                    `http://localhost:5008/api/saved-jobs/${user.id}/${job.id}`
+                    `http://localhost:5001/api/saved-jobs/${user.id}/${job.id}`
                 );
                 setIsSaved(false);
+                // Remove from parent savedJobs....
+                if (updateSavedJobs) {
+                    updateSavedJobs((prev) =>
+                        prev.filter((savedJob) => savedJob.id !== job.id)
+                    );
+                }
             } else {
                 // Save job
-                await axios.post('http://localhost:5008/api/saved-jobs', {
+                await axios.post('http://localhost:5001/api/saved-jobs', {
                     user_id: user.id,
                     job_id: job.id,
                 });
                 setIsSaved(true);
+
+                // Add to parent saveJobs...
+                if (updateSavedJobs) {
+                    updateSavedJobs((prev) => [...prev, job]);
+                }
             }
         } catch (err) {
             console.error('Error saving/removing job:', err);
