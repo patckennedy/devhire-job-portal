@@ -9,7 +9,7 @@ const JobListing = () => {
     const [company, setCompany] = useState('');
 
     useEffect(() => {
-        fetch('http://localhost:5008/api/jobs')
+        fetch('http://localhost:5001/api/jobs')
             .then((res) => {
                 console.log('Raw response:', res);
                 return res.json();
@@ -22,7 +22,7 @@ const JobListing = () => {
     }, []);
 
     useEffect(() => {
-        fetch('http://localhost:5008/api/states')
+        fetch('http://localhost:5001/api/states')
             .then((res) => {
                 console.log('Raw response for states:', res);
                 return res.json();
