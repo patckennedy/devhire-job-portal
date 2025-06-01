@@ -14,7 +14,7 @@ const ViewJobDetails = () => {
     const [successMsg, setSuccessMsg] = useState('');
 
     useEffect(() => {
-        fetch(`http://localhost:5008/api/jobs/${id}`)
+        fetch(`http://localhost:5001/api/jobs/${id}`)
             .then((res) => res.json())
             .then((data) => setJob(data))
             .catch((err) => console.error('Error fetching job:', err));
@@ -40,7 +40,7 @@ const ViewJobDetails = () => {
 
         try {
             await axios.post(
-                'http://localhost:5008/api/applied-jobs',
+                'http://localhost:5001/api/applied-jobs',
                 formData,
                 {
                     headers: {
