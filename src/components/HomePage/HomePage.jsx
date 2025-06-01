@@ -1,8 +1,7 @@
 import useStore from '../../zustand/store';
-import Companies from './Companies';
-
-// import Footer from '../Footer/Footer';
 import Hero from './Hero';
+import HowItWorks from '../HowItWorks/HowItWorks';
+import Testimonials from '../Testimonials/Testimonials';
 
 function HomePage() {
     const user = useStore((state) => state.user);
@@ -10,10 +9,11 @@ function HomePage() {
 
     return (
         <>
-            {/* <Footer /> */}
-            {/* <JobDetails /> */}
             <Hero />
-            {/* <Companies /> */}
+            <HowItWorks />
+            <Testimonials />
         </>
     );
 }
+
+export default HomePage;
