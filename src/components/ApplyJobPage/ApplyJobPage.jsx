@@ -24,7 +24,7 @@ const ApplyJobPage = ({ job }) => {
 
         try {
             const response = await axios.post(
-                'http://localhost:5008/api/apply',
+                'http://localhost:5001/api/apply',
                 formData,
                 {
                     headers: { 'Content-Type': 'multipart/form-data' },
