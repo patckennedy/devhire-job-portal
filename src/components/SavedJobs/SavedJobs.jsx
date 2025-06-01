@@ -11,7 +11,7 @@ const SaveJobs = () => {
         if (!user?.id) return;
 
         axios
-            .get(`http://localhost:5008/api/saved-jobs/${user.id}`)
+            .get(`http://localhost:5001/api/saved-jobs/${user.id}`)
             .then((res) => {
                 setSavedJobs(res.data);
             })
