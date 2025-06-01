@@ -11,7 +11,7 @@ const RecruiterJobDetails = () => {
 
     useEffect(() => {
         axios
-            .get(`http://localhost:5008/api/jobs/${id}`)
+            .get(`http://localhost:5001/api/jobs/${id}`)
             .then((res) => {
                 setJob(res.data);
                 setEditData(res.data);
@@ -29,7 +29,7 @@ const RecruiterJobDetails = () => {
 
     const handleSave = () => {
         axios
-            .put(`http://localhost:5008/api/jobs/${id}`, editData)
+            .put(`http://localhost:5001/api/jobs/${id}`, editData)
             .then((res) => {
                 setJob(res.data);
                 setIsEditing(false);
@@ -49,7 +49,7 @@ const RecruiterJobDetails = () => {
     const handleDelete = () => {
         if (window.confirm('Are you sure you want to delete this job?')) {
             axios
-                .delete(`http://localhost:5008/api/jobs/${id}`)
+                .delete(`http://localhost:5001/api/jobs/${id}`)
                 .then(() => {
                     alert('Job deleted.');
                     navigate('/recruiter-dashboard');
